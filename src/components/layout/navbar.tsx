@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "/", label: "หน้าแรก" },
   { href: "/products", label: "จอ LED" },
+  { href: "/community-screen", label: "Community Screen", badge: "ใหม่" },
   { href: "/showcase", label: "ผลงาน" },
   { href: "/about", label: "เกี่ยวกับเรา" },
 ];
@@ -49,9 +50,14 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-muted transition-colors hover:text-white"
+                className="relative text-sm font-medium text-muted transition-colors hover:text-white"
               >
                 {link.label}
+                {link.badge && (
+                  <span className="ml-1.5 inline-flex rounded-full bg-[#FF2D78] px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+                    {link.badge}
+                  </span>
+                )}
               </Link>
             ))}
             <Link
@@ -112,6 +118,11 @@ export function Navbar() {
                     className="font-[family-name:var(--font-space-grotesk)] text-3xl font-bold text-white transition-colors hover:text-accent"
                   >
                     {link.label}
+                    {link.badge && (
+                      <span className="ml-2 inline-flex rounded-full bg-[#FF2D78] px-2 py-1 text-xs font-bold leading-none text-white align-middle">
+                        {link.badge}
+                      </span>
+                    )}
                   </Link>
                 </motion.div>
               ))}

@@ -146,6 +146,17 @@ export function Footer() {
                   เกี่ยวกับเรา
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/community-screen"
+                  className="text-sm text-muted transition-colors hover:text-white"
+                >
+                  Community Screen
+                  <span className="ml-1.5 inline-flex rounded-full bg-[#FF2D78] px-1.5 py-0.5 text-[10px] font-bold leading-none text-white">
+                    ใหม่
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
 

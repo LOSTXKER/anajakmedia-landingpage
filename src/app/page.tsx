@@ -6,6 +6,7 @@ import { PricingPreview } from "@/components/home/pricing-preview";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { ShowcaseReel } from "@/components/home/showcase-reel";
 import { Testimonials } from "@/components/home/testimonials";
+import { CommunityScreenTeaser } from "@/components/home/community-screen-teaser";
 import { CtaSection } from "@/components/home/cta-section";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <HowItWorks />
       <ShowcaseReel />
       <Testimonials />
+      <CommunityScreenTeaser />
       <CtaSection />
     </>
   );
