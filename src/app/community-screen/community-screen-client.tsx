@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import {
-  Sparkles,
+  Timer,
   Zap,
   Camera,
   Upload,
@@ -19,12 +19,11 @@ import {
   ChevronDown,
   MessageCircle,
   Send,
-  Star,
   ArrowRight,
+  TrendingUp,
   Image,
   QrCode,
   CheckCircle2,
-  Play,
   Smartphone,
 } from "lucide-react";
 import { useState } from "react";
@@ -36,55 +35,23 @@ const purple = "#7B2FFF";
 const pink = "#FF2D78";
 
 /* ─── Data ─── */
-const packages = [
-  {
-    name: "ลงจอ 1 รอบ",
-    price: "50–99",
-    unit: "฿/รอบ",
-    desc: "15 วินาที ฉาย 1 ครั้ง",
-    fit: "ลองเล่น แกล้งเพื่อน",
-    color: cyan,
-    popular: false,
-  },
-  {
-    name: "โปรโมทร้านค้า",
-    price: "199",
-    unit: "฿",
-    desc: "เทมเพลตสวย + QR Code",
-    fit: "ร้านค้าเล็ก Influencer",
-    color: purple,
-    popular: false,
-  },
-  {
-    name: "HBD / โปรเจกต์ศิลปิน",
-    price: "499",
-    unit: "฿",
-    desc: "วนขึ้น 10 รอบตลอดวัน",
-    fit: "Fandom วันเกิดศิลปิน",
-    color: pink,
-    popular: true,
-  },
-  {
-    name: "Fast Track (ลัดคิว)",
-    price: "+50",
-    unit: "฿",
-    desc: "ขึ้นจอภายใน 5 นาที",
-    fit: "อยู่ตรงแยกพอดี รอไม่ไหว",
-    color: cyan,
-    popular: false,
-  },
+const durationExamples = [
+  { seconds: 15, price: 45, label: "ขั้นต่ำ" },
+  { seconds: 30, price: 90, label: "แนะนำ" },
+  { seconds: 45, price: 135, label: "" },
+  { seconds: 60, price: 180, label: "สูงสุด" },
 ];
 
 const steps = [
   {
-    icon: Sparkles,
-    title: "เลือกแพ็กเกจ",
-    desc: "เลือกสิ่งที่อยากทำ — อวยพร โปรโมท หรืออัปโหลดเอง",
+    icon: Timer,
+    title: "เลือกความยาว",
+    desc: "เลือก 15–60 วินาที ระบบคำนวณราคาให้ทันที (ราคาเปลี่ยนตาม Demand)",
   },
   {
     icon: Upload,
-    title: "สร้างคอนเทนต์",
-    desc: "ใช้เทมเพลตสำเร็จรูป หรืออัปโหลดไฟล์เอง",
+    title: "อัปโหลดคอนเทนต์",
+    desc: "อัปโหลดรูปภาพหรือวิดีโอที่ทำมาเอง (JPG, PNG, MP4)",
   },
   {
     icon: CreditCard,
@@ -94,7 +61,7 @@ const steps = [
   {
     icon: Monitor,
     title: "ขึ้นจอ!",
-    desc: "รอแอดมิน Approve แล้วขึ้นจอตามคิว + ได้หลักฐาน",
+    desc: "รอแอดมิน Approve แล้วขึ้นจอตามคิว + ได้หลักฐาน Proof of Play",
   },
 ];
 
@@ -102,53 +69,57 @@ const audiences = [
   {
     icon: Heart,
     group: "Fandom / ติ่ง",
-    behavior: "โปรเจกต์วันเกิดศิลปิน กำลังซื้อสูง",
-    pkg: "HBD 499 ฿",
+    behavior: "โปรเจกต์วันเกิดศิลปิน ดีไซน์ภาพมาเอง",
+    example: "60 วิ = ฿180",
     color: pink,
   },
   {
     icon: Users,
     group: "วัยรุ่น / นักศึกษา มช.",
     behavior: "แกล้งเพื่อน อวยพรวันเกิด บอกรัก",
-    pkg: "Pay-per-Play 50–99 ฿",
+    example: "15 วิ = ฿45",
     color: cyan,
   },
   {
     icon: Store,
     group: "Influencer / พ่อค้าแม่ค้า",
-    behavior: "โปรโมทร้าน สร้างโปรไฟล์",
-    pkg: "โปรโมทร้าน 199 ฿",
+    behavior: "โปรโมทร้าน สร้างคอนเทนต์ถ่ายหน้าจอ",
+    example: "30 วิ = ฿90",
     color: purple,
   },
   {
     icon: Building2,
     group: "องค์กร / SME",
-    behavior: "โฆษณาระยะยาว",
-    pkg: "B2B แพ็กเกจ (เร็วๆ นี้)",
+    behavior: "โฆษณาระยะยาว เหมาช่วงเวลา",
+    example: "ติดต่อสอบถาม",
     color: cyan,
   },
 ];
 
 const faqs = [
   {
+    q: "วินาทีละ 3 บาท หมายความว่าอย่างไร?",
+    a: "ราคาเริ่มต้นคือ 3 บาทต่อวินาที เลือกความยาวได้ 15–60 วินาที เช่น 15 วิ = 45 บาท, 30 วิ = 90 บาท แต่ราคาอาจเปลี่ยนแปลงขึ้นอยู่กับความต้องการ (Demand) ณ ช่วงเวลานั้น",
+  },
+  {
+    q: "ราคาประมูลทำงานยังไง?",
+    a: "ช่วงเวลาที่มีคนจองเยอะ (เช่น ช่วงเย็นวันเสาร์) ราคาต่อวินาทีจะปรับเพิ่มขึ้นตาม Demand อัตโนมัติ ช่วงที่คนน้อยก็จะกลับมาราคาปกติ เหมือนระบบ Surge Pricing",
+  },
+  {
+    q: "ต้องทำคอนเทนต์มาเองหรือเปล่า?",
+    a: "ใช่ครับ ตอนนี้ยังไม่มีเทมเพลตสำเร็จรูป ต้องอัปโหลดรูปภาพ (JPG, PNG) หรือวิดีโอ (MP4) ที่ทำมาเอง ระบบจะแสดง Guideline ขนาดไฟล์และ Resolution ที่แนะนำ",
+  },
+  {
     q: "ภาพจะขึ้นจอนานแค่ไหน?",
-    a: "สล็อตละ 15 วินาที แพ็กเกจ HBD จะวนขึ้น 10 รอบตลอดทั้งวัน",
+    a: "ขั้นต่ำ 15 วินาที สูงสุด 60 วินาที เลือกได้ตามต้องการ",
   },
   {
     q: "ต้องรอนานไหมกว่าจะขึ้นจอ?",
-    a: "ปกติไม่เกิน 1 ชั่วโมงหลังจาก Approve ถ้าเลือก Fast Track ขึ้นภายใน 5 นาที",
-  },
-  {
-    q: "อัปโหลดไฟล์อะไรได้บ้าง?",
-    a: "JPG, PNG (ภาพนิ่ง) และ MP4 (วิดีโอไม่เกิน 15 หรือ 30 วินาที)",
+    a: "หลังจากแอดมิน Approve แล้ว จะเข้าคิวฉายอัตโนมัติ ปกติไม่เกิน 1 ชั่วโมง",
   },
   {
     q: "ถ้าภาพไม่ผ่าน Approve จะได้เงินคืนไหม?",
     a: "ได้คืน 100% อัตโนมัติ พร้อมแจ้งเหตุผลการปฏิเสธ",
-  },
-  {
-    q: "สามารถเลือกเวลาที่จะขึ้นจอได้ไหม?",
-    a: "ในเวอร์ชันแรกจะเป็นระบบคิว เวอร์ชันถัดไปจะเพิ่มการจองช่วงเวลาได้",
   },
   {
     q: "มีหลักฐานยืนยันไหมว่าภาพขึ้นจอจริง?",
@@ -227,7 +198,7 @@ export function CommunityScreenClient() {
             </div>
 
             <h1 className="font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-tight text-white md:text-6xl lg:text-7xl">
-              อยากให้ใครเห็น?
+              ลงจอยักษ์กลางเชียงใหม่
               <br />
               <span
                 className="bg-clip-text text-transparent"
@@ -235,21 +206,21 @@ export function CommunityScreenClient() {
                   backgroundImage: `linear-gradient(135deg, ${cyan}, ${purple})`,
                 }}
               >
-                ลงจอยักษ์กลางเชียงใหม่
+                วินาทีละ 3 บาท
               </span>
             </h1>
 
             <p className="mt-5 text-xl text-muted md:text-2xl">
-              อวยพรวันเกิด โปรโมทร้าน โชว์โปรเจกต์{" "}
+              เลือกความยาว 15–60 วินาที อัปโหลดคอนเทนต์ จ่ายเงิน ขึ้นจอ{" "}
               <span className="font-semibold text-white">
-                ง่ายแค่ 3 ขั้นตอน เริ่มต้นแค่ 50 บาท
+                เริ่มต้นแค่ 45 บาท
               </span>
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               {[
-                { icon: Sparkles, text: "เริ่มต้น 50 บาท" },
-                { icon: Zap, text: "Self-service สั่งเอง" },
+                { icon: Timer, text: "วินาทีละ ฿3" },
+                { icon: TrendingUp, text: "ราคาประมูลตาม Demand" },
                 { icon: Camera, text: "Proof of Play ได้หลักฐาน" },
               ].map((h) => (
                 <div
@@ -266,13 +237,13 @@ export function CommunityScreenClient() {
 
             <div className="mt-10 flex flex-wrap gap-4">
               <a
-                href="#packages"
+                href="#pricing"
                 className="group inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold text-white transition-all hover:shadow-[0_0_30px_rgba(0,212,255,0.3)]"
                 style={{
                   backgroundImage: `linear-gradient(135deg, ${cyan}, ${purple})`,
                 }}
               >
-                ดูแพ็กเกจ & ราคา
+                ดูราคา & วิธีใช้
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </a>
               <a
@@ -286,8 +257,8 @@ export function CommunityScreenClient() {
         </div>
       </section>
 
-      {/* ━━━ PACKAGES ━━━ */}
-      <section id="packages" className="relative py-24 md:py-32">
+      {/* ━━━ PRICING ━━━ */}
+      <section id="pricing" className="relative py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -298,63 +269,90 @@ export function CommunityScreenClient() {
               className="text-sm font-semibold tracking-wider uppercase"
               style={{ color: cyan }}
             >
-              แพ็กเกจ & ราคา
+              ราคา
             </p>
             <h2 className="mt-2 font-[family-name:var(--font-space-grotesk)] text-3xl font-bold text-white md:text-4xl">
-              เลือกแบบที่ใช่สำหรับคุณ
+              เรียบง่าย — วินาทีละ 3 บาท
             </h2>
             <p className="mt-3 text-lg text-muted">
-              ไม่ว่าจะแค่ลองเล่นหรือจัดเต็ม เรามีแพ็กเกจที่เหมาะกับทุกคน
+              เลือกความยาวที่ต้องการ ราคาคำนวณอัตโนมัติ ยิ่ง Demand สูง ราคายิ่งเพิ่ม
             </p>
           </motion.div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {packages.map((pkg, i) => (
-              <motion.div
-                key={pkg.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`relative rounded-2xl border p-6 transition-all hover:scale-[1.02] ${
-                  pkg.popular
-                    ? "border-[#FF2D78]/30 bg-[#FF2D78]/[0.05]"
-                    : "border-white/10 bg-white/[0.02]"
-                }`}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-3 right-4 flex items-center gap-1 rounded-full bg-[#FF2D78] px-3 py-1 text-xs font-bold text-white">
-                    <Star className="h-3 w-3" />
-                    ยอดนิยม
-                  </div>
-                )}
-                <p className="text-sm font-semibold text-muted">{pkg.fit}</p>
-                <h3 className="mt-2 text-lg font-bold text-white">
-                  {pkg.name}
-                </h3>
-                <p
-                  className="mt-4 font-[family-name:var(--font-space-grotesk)] text-4xl font-bold"
-                  style={{ color: pkg.color }}
-                >
-                  {pkg.price}
-                  <span className="ml-1 text-base font-normal text-muted">
-                    {pkg.unit}
-                  </span>
-                </p>
-                <p className="mt-3 text-muted">{pkg.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
+          {/* Big price display */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-8 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-center text-muted"
+            className="mt-12 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#00D4FF]/[0.06] via-transparent to-[#7B2FFF]/[0.04]"
           >
-            <span className="font-semibold text-white">B2B แพ็กเกจองค์กร</span>{" "}
-            — เหมาช่วงเวลา รายสัปดาห์/เดือน สำหรับแบรนด์ &amp; SME{" "}
-            <span style={{ color: cyan }}>(Phase 2)</span>
+            <div className="grid md:grid-cols-2">
+              {/* Left — base price */}
+              <div className="flex flex-col items-center justify-center p-10 md:p-14">
+                <p className="text-sm font-semibold text-white/50 uppercase">ราคาเริ่มต้น</p>
+                <p className="mt-2 font-[family-name:var(--font-space-grotesk)] text-7xl font-bold text-white md:text-8xl">
+                  ฿3
+                </p>
+                <p className="mt-1 text-lg text-white/60">ต่อวินาที</p>
+                <div className="mt-6 flex items-center gap-2 rounded-full bg-[#FF2D78]/10 px-4 py-2 ring-1 ring-[#FF2D78]/30">
+                  <TrendingUp className="h-4 w-4 text-[#FF2D78]" />
+                  <span className="text-sm font-medium text-[#FF2D78]">
+                    ราคาประมูลตาม Demand
+                  </span>
+                </div>
+                <p className="mt-4 max-w-xs text-center text-sm text-muted">
+                  ช่วงที่คนจองเยอะ ราคาต่อวินาทีจะปรับเพิ่มอัตโนมัติ ช่วงคนน้อยราคาปกติ
+                </p>
+              </div>
+
+              {/* Right — duration examples */}
+              <div className="border-t border-white/10 p-8 md:border-l md:border-t-0 md:p-10">
+                <p className="mb-6 text-sm font-semibold text-white/50 uppercase">
+                  ตัวอย่างราคา (ราคาปกติ)
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  {durationExamples.map((d) => (
+                    <div
+                      key={d.seconds}
+                      className={`rounded-2xl p-5 text-center ring-1 ${
+                        d.label === "แนะนำ"
+                          ? "bg-[#00D4FF]/[0.08] ring-[#00D4FF]/30"
+                          : "bg-white/[0.03] ring-white/10"
+                      }`}
+                    >
+                      {d.label && (
+                        <p
+                          className="mb-1 text-xs font-bold uppercase"
+                          style={{ color: d.label === "แนะนำ" ? cyan : "rgba(255,255,255,0.4)" }}
+                        >
+                          {d.label}
+                        </p>
+                      )}
+                      <p className="font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-white">
+                        {d.seconds} <span className="text-base font-normal text-white/50">วินาที</span>
+                      </p>
+                      <p
+                        className="mt-1 font-[family-name:var(--font-space-grotesk)] text-xl font-bold"
+                        style={{ color: cyan }}
+                      >
+                        ฿{d.price}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 rounded-xl bg-white/[0.03] p-4 ring-1 ring-white/10">
+                  <div className="flex items-start gap-3">
+                    <Upload className="mt-0.5 h-5 w-5 shrink-0 text-white/40" />
+                    <div>
+                      <p className="font-medium text-white">ต้องอัปโหลดคอนเทนต์เอง</p>
+                      <p className="mt-1 text-sm text-muted">
+                        รองรับ JPG, PNG (ภาพนิ่ง) และ MP4 (วิดีโอ) ยังไม่มีเทมเพลตสำเร็จรูป
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -450,7 +448,7 @@ export function CommunityScreenClient() {
 
           {/* Phone Mockups Grid */}
           <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {/* Screen 1: เลือกแพ็กเกจ */}
+            {/* Screen 1: เลือกความยาว */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -461,64 +459,52 @@ export function CommunityScreenClient() {
                 หน้าจอที่ 1
               </div>
               <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D0D1A] shadow-2xl">
-                {/* Phone status bar */}
                 <div className="flex items-center justify-between bg-[#0D0D1A] px-5 pt-3 pb-2">
                   <span className="text-xs text-white/40">9:41</span>
                   <div className="mx-auto h-5 w-20 rounded-full bg-white/10" />
                   <span className="text-xs text-white/40">100%</span>
                 </div>
-                {/* Screen content */}
                 <div className="space-y-3 px-4 pb-5">
                   <p className="text-center text-sm font-bold text-white">
-                    เลือกแพ็กเกจ
+                    เลือกความยาว
                   </p>
-                  <div className="rounded-xl p-3 ring-1 ring-[#00D4FF]/30" style={{ background: `${cyan}08` }}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Play className="h-4 w-4" style={{ color: cyan }} />
-                        <span className="text-sm font-semibold text-white">ลงจอ 1 รอบ</span>
-                      </div>
-                      <span className="text-sm font-bold" style={{ color: cyan }}>฿50</span>
+                  <div className="text-center">
+                    <p className="font-[family-name:var(--font-space-grotesk)] text-3xl font-bold" style={{ color: cyan }}>30 วิ</p>
+                    <div className="mx-auto mt-2 h-1.5 w-full rounded-full bg-white/10">
+                      <div className="h-1.5 w-1/2 rounded-full" style={{ background: `linear-gradient(90deg, ${cyan}, ${purple})` }} />
                     </div>
-                    <p className="mt-1 text-xs text-white/50">15 วินาที ฉาย 1 ครั้ง</p>
+                    <div className="mt-1 flex justify-between text-xs text-white/40">
+                      <span>15 วิ</span>
+                      <span>60 วิ</span>
+                    </div>
                   </div>
-                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+                  <div className="rounded-xl p-3 ring-1 ring-white/10" style={{ background: `${cyan}08` }}>
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Store className="h-4 w-4" style={{ color: purple }} />
-                        <span className="text-sm font-semibold text-white">โปรโมทร้าน</span>
-                      </div>
-                      <span className="text-sm font-bold" style={{ color: purple }}>฿199</span>
+                      <span className="text-sm text-white/60">ราคาปัจจุบัน</span>
+                      <span className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold" style={{ color: cyan }}>฿3/วินาที</span>
                     </div>
-                    <p className="mt-1 text-xs text-white/50">เทมเพลต + QR Code</p>
+                    <div className="mt-1 flex items-center justify-between">
+                      <span className="text-sm text-white/60">รวม</span>
+                      <span className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-white">฿90</span>
+                    </div>
                   </div>
-                  <div className="rounded-xl p-3 ring-1 ring-[#FF2D78]/30" style={{ background: `${pink}08` }}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Heart className="h-4 w-4" style={{ color: pink }} />
-                        <span className="text-sm font-semibold text-white">HBD ศิลปิน</span>
-                      </div>
-                      <span className="text-sm font-bold" style={{ color: pink }}>฿499</span>
-                    </div>
-                    <p className="mt-1 text-xs text-white/50">วนขึ้น 10 รอบตลอดวัน</p>
+                  <div className="flex items-center gap-2 rounded-lg bg-[#FF2D78]/10 px-3 py-2">
+                    <TrendingUp className="h-3.5 w-3.5 text-[#FF2D78]" />
+                    <p className="text-xs text-white/60">Demand ปกติ (x1.0)</p>
                   </div>
-                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Zap className="h-4 w-4" style={{ color: cyan }} />
-                        <span className="text-sm font-semibold text-white">Fast Track</span>
-                      </div>
-                      <span className="text-sm font-bold" style={{ color: cyan }}>+฿50</span>
-                    </div>
-                    <p className="mt-1 text-xs text-white/50">ลัดคิว ขึ้นภายใน 5 นาที</p>
+                  <div
+                    className="rounded-xl py-2.5 text-center text-sm font-semibold text-white"
+                    style={{ backgroundImage: `linear-gradient(135deg, ${cyan}, ${purple})` }}
+                  >
+                    ถัดไป
                   </div>
                 </div>
               </div>
-              <p className="mt-3 text-sm font-medium text-white">เลือกแพ็กเกจ</p>
-              <p className="mt-0.5 text-sm text-muted">แตะเลือกสิ่งที่อยากทำ</p>
+              <p className="mt-3 text-sm font-medium text-white">เลือกความยาว</p>
+              <p className="mt-0.5 text-sm text-muted">เลื่อนเลือก 15–60 วินาที</p>
             </motion.div>
 
-            {/* Screen 2: สร้างคอนเทนต์ */}
+            {/* Screen 2: อัปโหลดคอนเทนต์ */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -536,43 +522,42 @@ export function CommunityScreenClient() {
                 </div>
                 <div className="space-y-3 px-4 pb-5">
                   <p className="text-center text-sm font-bold text-white">
-                    สร้างคอนเทนต์
+                    อัปโหลดคอนเทนต์
                   </p>
-                  {/* Template selector */}
-                  <p className="text-xs font-semibold text-white/50 uppercase">เลือกเทมเพลต</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="rounded-xl ring-2 ring-[#00D4FF]/50 overflow-hidden">
-                      <div className="flex aspect-[4/3] items-center justify-center" style={{ background: `linear-gradient(135deg, ${cyan}20, ${purple}20)` }}>
-                        <Heart className="h-8 w-8" style={{ color: pink }} />
-                      </div>
-                      <p className="bg-white/[0.04] px-2 py-1.5 text-center text-xs font-medium text-white">HBD</p>
-                    </div>
-                    <div className="rounded-xl ring-1 ring-white/10 overflow-hidden">
-                      <div className="flex aspect-[4/3] items-center justify-center bg-white/[0.03]">
-                        <Store className="h-8 w-8 text-white/20" />
-                      </div>
-                      <p className="bg-white/[0.04] px-2 py-1.5 text-center text-xs font-medium text-white/50">ร้านค้า</p>
-                    </div>
-                  </div>
                   {/* Upload area */}
-                  <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4">
-                    <Image className="h-6 w-6 text-white/30" />
-                    <p className="text-xs text-white/40">อัปโหลดรูปของคุณ</p>
+                  <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ background: `${cyan}15` }}>
+                      <Upload className="h-6 w-6" style={{ color: cyan }} />
+                    </div>
+                    <p className="text-sm font-medium text-white">แตะเพื่ออัปโหลด</p>
+                    <p className="text-xs text-white/40">JPG, PNG หรือ MP4</p>
                   </div>
-                  {/* Text input mock */}
-                  <div className="rounded-xl bg-white/[0.04] px-3 py-2.5 ring-1 ring-white/10">
-                    <p className="text-xs text-white/30">พิมพ์ข้อความอวยพร...</p>
+                  {/* Guidelines */}
+                  <div className="space-y-2 rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+                    <p className="text-xs font-semibold text-white/50 uppercase">Guideline</p>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-white/50">Resolution</span>
+                      <span className="text-white/80">1920 x 1080</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-white/50">ขนาดไฟล์สูงสุด</span>
+                      <span className="text-white/80">50 MB</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-white/50">ความยาววิดีโอ</span>
+                      <span className="text-white/80">15–60 วินาที</span>
+                    </div>
                   </div>
                   <div
                     className="rounded-xl py-2.5 text-center text-sm font-semibold text-white"
                     style={{ backgroundImage: `linear-gradient(135deg, ${cyan}, ${purple})` }}
                   >
-                    ดูตัวอย่าง
+                    ดูตัวอย่างบนจอ
                   </div>
                 </div>
               </div>
-              <p className="mt-3 text-sm font-medium text-white">สร้างคอนเทนต์</p>
-              <p className="mt-0.5 text-sm text-muted">เลือกเทมเพลตหรืออัปโหลดเอง</p>
+              <p className="mt-3 text-sm font-medium text-white">อัปโหลดคอนเทนต์</p>
+              <p className="mt-0.5 text-sm text-muted">ทำคอนเทนต์มาเอง ไม่มีเทมเพลต</p>
             </motion.div>
 
             {/* Screen 3: ชำระเงิน */}
@@ -600,17 +585,21 @@ export function CommunityScreenClient() {
                     <p className="text-xs font-semibold text-white/50 uppercase">สรุปออเดอร์</p>
                     <div className="mt-2 space-y-1.5">
                       <div className="flex justify-between text-sm">
-                        <span className="text-white/70">HBD ศิลปิน</span>
-                        <span className="text-white">฿499</span>
+                        <span className="text-white/70">ความยาว</span>
+                        <span className="text-white">30 วินาที</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-white/70">Fast Track</span>
-                        <span className="text-white">฿50</span>
+                        <span className="text-white/70">ราคา/วินาที</span>
+                        <span className="text-white">฿3.00</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-white/70">Demand (x1.0)</span>
+                        <span className="text-white/50">ปกติ</span>
                       </div>
                       <div className="border-t border-white/10 pt-1.5">
                         <div className="flex justify-between text-sm font-bold">
                           <span className="text-white">รวม</span>
-                          <span style={{ color: cyan }}>฿549</span>
+                          <span style={{ color: cyan }}>฿90</span>
                         </div>
                       </div>
                     </div>
@@ -662,9 +651,7 @@ export function CommunityScreenClient() {
                         <div className="flex flex-col items-center">
                           <div
                             className={`flex h-5 w-5 items-center justify-center rounded-full ${
-                              s.active
-                                ? "ring-2 ring-[#00D4FF]/50"
-                                : ""
+                              s.active ? "ring-2 ring-[#00D4FF]/50" : ""
                             }`}
                             style={{
                               background: s.done ? (s.active ? cyan : `${cyan}40`) : "rgba(255,255,255,0.1)",
@@ -682,7 +669,7 @@ export function CommunityScreenClient() {
                           )}
                         </div>
                         <p
-                          className={`text-xs pt-0.5 ${
+                          className={`pt-0.5 text-xs ${
                             s.active ? "font-bold text-white" : s.done ? "text-white/60" : "text-white/30"
                           }`}
                         >
@@ -702,7 +689,7 @@ export function CommunityScreenClient() {
                         <p className="mt-1 text-[10px] text-white/30">ภาพจากกล้องหน้าป้าย</p>
                       </div>
                     </div>
-                    <p className="mt-2 text-[10px] text-white/40">ฉายเมื่อ 14:32 น. | 15 วินาที</p>
+                    <p className="mt-2 text-[10px] text-white/40">ฉายเมื่อ 14:32 น. | 30 วินาที</p>
                   </div>
                 </div>
               </div>
@@ -752,7 +739,7 @@ export function CommunityScreenClient() {
                   <h3 className="text-lg font-bold text-white">{aud.group}</h3>
                   <p className="mt-1 text-muted">{aud.behavior}</p>
                   <p className="mt-2 text-sm font-semibold" style={{ color: aud.color }}>
-                    แนะนำ: {aud.pkg}
+                    {aud.example}
                   </p>
                 </div>
               </motion.div>
@@ -762,7 +749,7 @@ export function CommunityScreenClient() {
       </section>
 
       {/* ━━━ LOCATION ━━━ */}
-      <section className="relative border-y border-white/5 bg-surface/50 py-24 md:py-32">
+      <section className="relative py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <motion.div
@@ -827,7 +814,7 @@ export function CommunityScreenClient() {
       </section>
 
       {/* ━━━ FAQ ━━━ */}
-      <section className="relative py-24 md:py-32">
+      <section className="relative border-t border-white/5 bg-surface/50 py-24 md:py-32">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

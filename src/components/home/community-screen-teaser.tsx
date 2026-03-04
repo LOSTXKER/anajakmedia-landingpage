@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Zap, Camera } from "lucide-react";
+import { ArrowRight, Timer, TrendingUp, Camera } from "lucide-react";
 
 const highlights = [
-  { icon: Sparkles, text: "เริ่มต้นแค่ 50 บาท" },
-  { icon: Zap, text: "Self-service สั่งเอง" },
+  { icon: Timer, text: "วินาทีละ 3 บาท" },
+  { icon: TrendingUp, text: "ราคาประมูลตาม Demand" },
   { icon: Camera, text: "ได้หลักฐานขึ้นจอ" },
 ];
 
@@ -48,10 +48,10 @@ export function CommunityScreenTeaser() {
               </h2>
 
               <p className="mt-4 text-lg text-muted">
-                อวยพรวันเกิด โปรโมทร้าน โชว์โปรเจกต์
+                ลงจอยักษ์กลางเชียงใหม่{" "}
+                <span className="font-semibold text-white">วินาทีละ 3 บาท</span>
                 <br className="hidden sm:block" />
-                บนจอยักษ์กลางเชียงใหม่{" "}
-                <span className="font-semibold text-white">เริ่มต้นแค่ 50 บาท</span>
+                เริ่มต้นแค่ 15 วินาที = 45 บาท ราคาเปลี่ยนตาม Demand
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -79,7 +79,7 @@ export function CommunityScreenTeaser() {
               </div>
             </div>
 
-            {/* Right — visual mockup */}
+            {/* Right — pricing visual */}
             <div className="flex items-center justify-center">
               <div className="relative">
                 <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#00D4FF]/20 to-[#7B2FFF]/20 blur-2xl" />
@@ -89,36 +89,33 @@ export function CommunityScreenTeaser() {
                     <div className="h-3 w-3 rounded-full bg-[#00D4FF]" />
                     <div className="h-3 w-3 rounded-full bg-[#7B2FFF]" />
                   </div>
-                  <div className="space-y-3">
-                    <div className="rounded-xl bg-gradient-to-r from-[#00D4FF]/10 to-[#7B2FFF]/10 p-4 ring-1 ring-white/5">
-                      <p className="text-sm font-semibold text-white">
-                        ลงจอ 1 รอบ
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <p className="text-sm text-white/50">ราคาเริ่มต้น</p>
+                      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-5xl font-bold text-[#00D4FF]">
+                        ฿3
                       </p>
-                      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#00D4FF]">
-                        ฿50
-                      </p>
-                      <p className="text-sm text-muted">15 วินาที</p>
+                      <p className="text-sm text-white/50">ต่อวินาที</p>
                     </div>
-                    <div className="rounded-xl bg-[#FF2D78]/10 p-4 ring-1 ring-[#FF2D78]/20">
-                      <p className="text-sm font-semibold text-white">
-                        HBD / โปรเจกต์ศิลปิน
-                      </p>
-                      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#FF2D78]">
-                        ฿499
-                      </p>
-                      <p className="text-sm text-muted">
-                        วนขึ้น 10 รอบตลอดวัน
-                      </p>
+                    <div className="h-px bg-white/10" />
+                    <div className="grid grid-cols-3 gap-3 text-center">
+                      <div className="rounded-xl bg-white/[0.04] p-3 ring-1 ring-white/10">
+                        <p className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-white">15 วิ</p>
+                        <p className="text-sm text-[#00D4FF]">฿45</p>
+                      </div>
+                      <div className="rounded-xl bg-[#00D4FF]/[0.08] p-3 ring-1 ring-[#00D4FF]/30">
+                        <p className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-white">30 วิ</p>
+                        <p className="text-sm text-[#00D4FF]">฿90</p>
+                      </div>
+                      <div className="rounded-xl bg-white/[0.04] p-3 ring-1 ring-white/10">
+                        <p className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-white">60 วิ</p>
+                        <p className="text-sm text-[#00D4FF]">฿180</p>
+                      </div>
                     </div>
-                    <div className="rounded-xl bg-white/[0.03] p-4 ring-1 ring-white/5">
-                      <p className="text-sm font-semibold text-white">
-                        โปรโมทร้านค้า
-                      </p>
-                      <p className="mt-1 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-[#7B2FFF]">
-                        ฿199
-                      </p>
-                      <p className="text-sm text-muted">
-                        เทมเพลตสวย + QR Code
+                    <div className="flex items-center gap-2 rounded-xl bg-[#FF2D78]/10 p-3 ring-1 ring-[#FF2D78]/20">
+                      <TrendingUp className="h-4 w-4 text-[#FF2D78]" />
+                      <p className="text-sm text-white/80">
+                        ราคาขึ้นเมื่อ Demand สูง
                       </p>
                     </div>
                   </div>
