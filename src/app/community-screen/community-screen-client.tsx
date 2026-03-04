@@ -21,6 +21,11 @@ import {
   Send,
   Star,
   ArrowRight,
+  Image,
+  QrCode,
+  CheckCircle2,
+  Play,
+  Smartphone,
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
@@ -411,8 +416,305 @@ export function CommunityScreenClient() {
         </div>
       </section>
 
-      {/* ━━━ TARGET AUDIENCES ━━━ */}
+      {/* ━━━ UX/UI PREVIEW ━━━ */}
       <section className="relative py-24 md:py-32">
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute left-1/2 top-1/4 h-[400px] w-[400px] -translate-x-1/2 rounded-full blur-[150px]"
+            style={{ background: `${purple}08` }}
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3">
+              <Smartphone className="h-5 w-5" style={{ color: cyan }} />
+              <p
+                className="text-sm font-semibold tracking-wider uppercase"
+                style={{ color: cyan }}
+              >
+                ตัวอย่าง UX/UI
+              </p>
+            </div>
+            <h2 className="mt-2 font-[family-name:var(--font-space-grotesk)] text-3xl font-bold text-white md:text-4xl">
+              สั่งง่ายเหมือนสั่งอาหาร
+            </h2>
+            <p className="mt-3 text-lg text-muted">
+              ดูตัวอย่างหน้าจอจริงที่ลูกค้าจะได้ใช้งาน — ออกแบบมาให้ง่ายที่สุด
+            </p>
+          </motion.div>
+
+          {/* Phone Mockups Grid */}
+          <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {/* Screen 1: เลือกแพ็กเกจ */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0 }}
+            >
+              <div className="mb-4 text-sm font-bold" style={{ color: cyan }}>
+                หน้าจอที่ 1
+              </div>
+              <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D0D1A] shadow-2xl">
+                {/* Phone status bar */}
+                <div className="flex items-center justify-between bg-[#0D0D1A] px-5 pt-3 pb-2">
+                  <span className="text-xs text-white/40">9:41</span>
+                  <div className="mx-auto h-5 w-20 rounded-full bg-white/10" />
+                  <span className="text-xs text-white/40">100%</span>
+                </div>
+                {/* Screen content */}
+                <div className="space-y-3 px-4 pb-5">
+                  <p className="text-center text-sm font-bold text-white">
+                    เลือกแพ็กเกจ
+                  </p>
+                  <div className="rounded-xl p-3 ring-1 ring-[#00D4FF]/30" style={{ background: `${cyan}08` }}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Play className="h-4 w-4" style={{ color: cyan }} />
+                        <span className="text-sm font-semibold text-white">ลงจอ 1 รอบ</span>
+                      </div>
+                      <span className="text-sm font-bold" style={{ color: cyan }}>฿50</span>
+                    </div>
+                    <p className="mt-1 text-xs text-white/50">15 วินาที ฉาย 1 ครั้ง</p>
+                  </div>
+                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Store className="h-4 w-4" style={{ color: purple }} />
+                        <span className="text-sm font-semibold text-white">โปรโมทร้าน</span>
+                      </div>
+                      <span className="text-sm font-bold" style={{ color: purple }}>฿199</span>
+                    </div>
+                    <p className="mt-1 text-xs text-white/50">เทมเพลต + QR Code</p>
+                  </div>
+                  <div className="rounded-xl p-3 ring-1 ring-[#FF2D78]/30" style={{ background: `${pink}08` }}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Heart className="h-4 w-4" style={{ color: pink }} />
+                        <span className="text-sm font-semibold text-white">HBD ศิลปิน</span>
+                      </div>
+                      <span className="text-sm font-bold" style={{ color: pink }}>฿499</span>
+                    </div>
+                    <p className="mt-1 text-xs text-white/50">วนขึ้น 10 รอบตลอดวัน</p>
+                  </div>
+                  <div className="rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Zap className="h-4 w-4" style={{ color: cyan }} />
+                        <span className="text-sm font-semibold text-white">Fast Track</span>
+                      </div>
+                      <span className="text-sm font-bold" style={{ color: cyan }}>+฿50</span>
+                    </div>
+                    <p className="mt-1 text-xs text-white/50">ลัดคิว ขึ้นภายใน 5 นาที</p>
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 text-sm font-medium text-white">เลือกแพ็กเกจ</p>
+              <p className="mt-0.5 text-sm text-muted">แตะเลือกสิ่งที่อยากทำ</p>
+            </motion.div>
+
+            {/* Screen 2: สร้างคอนเทนต์ */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+            >
+              <div className="mb-4 text-sm font-bold" style={{ color: cyan }}>
+                หน้าจอที่ 2
+              </div>
+              <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D0D1A] shadow-2xl">
+                <div className="flex items-center justify-between bg-[#0D0D1A] px-5 pt-3 pb-2">
+                  <span className="text-xs text-white/40">9:41</span>
+                  <div className="mx-auto h-5 w-20 rounded-full bg-white/10" />
+                  <span className="text-xs text-white/40">100%</span>
+                </div>
+                <div className="space-y-3 px-4 pb-5">
+                  <p className="text-center text-sm font-bold text-white">
+                    สร้างคอนเทนต์
+                  </p>
+                  {/* Template selector */}
+                  <p className="text-xs font-semibold text-white/50 uppercase">เลือกเทมเพลต</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded-xl ring-2 ring-[#00D4FF]/50 overflow-hidden">
+                      <div className="flex aspect-[4/3] items-center justify-center" style={{ background: `linear-gradient(135deg, ${cyan}20, ${purple}20)` }}>
+                        <Heart className="h-8 w-8" style={{ color: pink }} />
+                      </div>
+                      <p className="bg-white/[0.04] px-2 py-1.5 text-center text-xs font-medium text-white">HBD</p>
+                    </div>
+                    <div className="rounded-xl ring-1 ring-white/10 overflow-hidden">
+                      <div className="flex aspect-[4/3] items-center justify-center bg-white/[0.03]">
+                        <Store className="h-8 w-8 text-white/20" />
+                      </div>
+                      <p className="bg-white/[0.04] px-2 py-1.5 text-center text-xs font-medium text-white/50">ร้านค้า</p>
+                    </div>
+                  </div>
+                  {/* Upload area */}
+                  <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4">
+                    <Image className="h-6 w-6 text-white/30" />
+                    <p className="text-xs text-white/40">อัปโหลดรูปของคุณ</p>
+                  </div>
+                  {/* Text input mock */}
+                  <div className="rounded-xl bg-white/[0.04] px-3 py-2.5 ring-1 ring-white/10">
+                    <p className="text-xs text-white/30">พิมพ์ข้อความอวยพร...</p>
+                  </div>
+                  <div
+                    className="rounded-xl py-2.5 text-center text-sm font-semibold text-white"
+                    style={{ backgroundImage: `linear-gradient(135deg, ${cyan}, ${purple})` }}
+                  >
+                    ดูตัวอย่าง
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 text-sm font-medium text-white">สร้างคอนเทนต์</p>
+              <p className="mt-0.5 text-sm text-muted">เลือกเทมเพลตหรืออัปโหลดเอง</p>
+            </motion.div>
+
+            {/* Screen 3: ชำระเงิน */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="mb-4 text-sm font-bold" style={{ color: cyan }}>
+                หน้าจอที่ 3
+              </div>
+              <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D0D1A] shadow-2xl">
+                <div className="flex items-center justify-between bg-[#0D0D1A] px-5 pt-3 pb-2">
+                  <span className="text-xs text-white/40">9:41</span>
+                  <div className="mx-auto h-5 w-20 rounded-full bg-white/10" />
+                  <span className="text-xs text-white/40">100%</span>
+                </div>
+                <div className="space-y-3 px-4 pb-5">
+                  <p className="text-center text-sm font-bold text-white">
+                    ชำระเงิน
+                  </p>
+                  {/* Order summary */}
+                  <div className="rounded-xl bg-white/[0.04] p-3 ring-1 ring-white/10">
+                    <p className="text-xs font-semibold text-white/50 uppercase">สรุปออเดอร์</p>
+                    <div className="mt-2 space-y-1.5">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-white/70">HBD ศิลปิน</span>
+                        <span className="text-white">฿499</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-white/70">Fast Track</span>
+                        <span className="text-white">฿50</span>
+                      </div>
+                      <div className="border-t border-white/10 pt-1.5">
+                        <div className="flex justify-between text-sm font-bold">
+                          <span className="text-white">รวม</span>
+                          <span style={{ color: cyan }}>฿549</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* QR Code */}
+                  <div className="flex flex-col items-center rounded-xl bg-white p-4">
+                    <QrCode className="h-24 w-24 text-gray-800" />
+                    <p className="mt-2 text-xs font-semibold text-gray-600">สแกน PromptPay</p>
+                  </div>
+                  <p className="text-center text-xs text-white/40">
+                    ระบบจะตรวจสอบยอดอัตโนมัติ
+                  </p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm font-medium text-white">จ่ายเงิน</p>
+              <p className="mt-0.5 text-sm text-muted">สแกน PromptPay QR จบ</p>
+            </motion.div>
+
+            {/* Screen 4: สถานะ + Proof of Play */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="mb-4 text-sm font-bold" style={{ color: cyan }}>
+                หน้าจอที่ 4
+              </div>
+              <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0D0D1A] shadow-2xl">
+                <div className="flex items-center justify-between bg-[#0D0D1A] px-5 pt-3 pb-2">
+                  <span className="text-xs text-white/40">9:41</span>
+                  <div className="mx-auto h-5 w-20 rounded-full bg-white/10" />
+                  <span className="text-xs text-white/40">100%</span>
+                </div>
+                <div className="space-y-3 px-4 pb-5">
+                  <p className="text-center text-sm font-bold text-white">
+                    สถานะออเดอร์
+                  </p>
+                  {/* Timeline */}
+                  <div className="space-y-0">
+                    {[
+                      { label: "ชำระเงินแล้ว", done: true },
+                      { label: "แอดมิน Approve", done: true },
+                      { label: "อยู่ในคิว (ลำดับที่ 3)", done: true },
+                      { label: "กำลังฉายบนจอ!", done: true, active: true },
+                      { label: "ฉายเสร็จแล้ว", done: false },
+                    ].map((s, i) => (
+                      <div key={i} className="flex gap-3">
+                        <div className="flex flex-col items-center">
+                          <div
+                            className={`flex h-5 w-5 items-center justify-center rounded-full ${
+                              s.active
+                                ? "ring-2 ring-[#00D4FF]/50"
+                                : ""
+                            }`}
+                            style={{
+                              background: s.done ? (s.active ? cyan : `${cyan}40`) : "rgba(255,255,255,0.1)",
+                            }}
+                          >
+                            {s.done && <CheckCircle2 className="h-3 w-3 text-white" />}
+                          </div>
+                          {i < 4 && (
+                            <div
+                              className="h-4 w-px"
+                              style={{
+                                background: s.done ? `${cyan}40` : "rgba(255,255,255,0.1)",
+                              }}
+                            />
+                          )}
+                        </div>
+                        <p
+                          className={`text-xs pt-0.5 ${
+                            s.active ? "font-bold text-white" : s.done ? "text-white/60" : "text-white/30"
+                          }`}
+                        >
+                          {s.active && "📺 "}{s.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Proof of Play mock */}
+                  <div className="rounded-xl p-3 ring-1 ring-[#00D4FF]/20" style={{ background: `${cyan}08` }}>
+                    <p className="text-xs font-semibold" style={{ color: cyan }}>
+                      Proof of Play
+                    </p>
+                    <div className="mt-2 flex aspect-video items-center justify-center rounded-lg bg-gradient-to-br from-[#0D0D1A] to-[#1a1a2e]">
+                      <div className="text-center">
+                        <Camera className="mx-auto h-6 w-6 text-white/20" />
+                        <p className="mt-1 text-[10px] text-white/30">ภาพจากกล้องหน้าป้าย</p>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-[10px] text-white/40">ฉายเมื่อ 14:32 น. | 15 วินาที</p>
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 text-sm font-medium text-white">ติดตามสถานะ</p>
+              <p className="mt-0.5 text-sm text-muted">ดูสด + ได้หลักฐานขึ้นจอ</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ━━━ TARGET AUDIENCES ━━━ */}
+      <section className="relative border-y border-white/5 bg-surface/50 py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
