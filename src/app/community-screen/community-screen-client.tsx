@@ -25,6 +25,10 @@ import {
   QrCode,
   CheckCircle2,
   Smartphone,
+  Shuffle,
+  Coffee,
+  Vote,
+  EyeOff,
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
@@ -748,8 +752,145 @@ export function CommunityScreenClient() {
         </div>
       </section>
 
-      {/* ━━━ LOCATION ━━━ */}
+      {/* ━━━ WHY PEOPLE DON'T GET BORED ━━━ */}
       <section className="relative py-24 md:py-32">
+        <div className="pointer-events-none absolute inset-0">
+          <div
+            className="absolute -right-[20%] top-[20%] h-[500px] w-[500px] rounded-full blur-[150px]"
+            style={{ background: `${pink}06` }}
+          />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3">
+              <EyeOff className="h-5 w-5" style={{ color: pink }} />
+              <p
+                className="text-sm font-semibold tracking-wider uppercase"
+                style={{ color: pink }}
+              >
+                ทำไมคนไม่เบื่อ?
+              </p>
+            </div>
+            <h2 className="mt-2 font-[family-name:var(--font-space-grotesk)] text-3xl font-bold text-white md:text-4xl">
+              ป้ายธรรมดา คนเลิกมอง — ป้ายของมวลชน คนแย่งดู
+            </h2>
+            <p className="mt-3 max-w-2xl text-lg text-muted">
+              ป้ายโฆษณาทั่วไปเปิดรูปขายคอนโดวนซ้ำ 3 เดือน คนติดไฟแดงเบื่อจนเลิกมอง
+              (Ad Blindness) แต่ Community Screen ทำงานเหมือน{" "}
+              <span className="font-semibold text-white">ฟีดโซเชียลมีเดียขนาดยักษ์</span>{" "}
+              — คาดเดาไม่ได้ว่าคอนเทนต์ต่อไปจะเป็นอะไร
+            </p>
+          </motion.div>
+
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {/* Point 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0 }}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-7"
+            >
+              <div
+                className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl"
+                style={{ background: `${pink}15` }}
+              >
+                <Shuffle className="h-6 w-6" style={{ color: pink }} />
+              </div>
+              <h3 className="text-lg font-bold text-white">
+                ความ Random คือเสน่ห์
+              </h3>
+              <p className="mt-3 leading-relaxed text-muted">
+                วินาทีนี้เป็นรูปป้ายยาซีรีส์วาย วินาทีถัดไปเป็นรูปหมาหน้าย่น
+                วินาทีต่อมาเด็ก มช. เอารูปหลุดเพื่อนมาประจานวันเกิด —{" "}
+                <span className="text-white">
+                  ความคาดเดาไม่ได้ทำให้คนต้องคอยเงยหน้ามอง
+                </span>{" "}
+                ว่าวันนี้จะมีอะไรแปลกๆ ฮาๆ ขึ้นจออีก
+              </p>
+            </motion.div>
+
+            {/* Point 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-7"
+            >
+              <div
+                className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl"
+                style={{ background: `${cyan}15` }}
+              >
+                <Coffee className="h-6 w-6" style={{ color: cyan }} />
+              </div>
+              <h3 className="text-lg font-bold text-white">
+                คอนเทนต์คั่นเวลา (Palate Cleanser)
+              </h3>
+              <p className="mt-3 leading-relaxed text-muted">
+                ระบบจะแทรกคอนเทนต์ของเราเองทุก 5–10 นาที เช่น{" "}
+                <span className="text-white">รายงาน PM 2.5</span>{" "}
+                <span className="text-white/60">&ldquo;เช้านี้เชียงใหม่ PM 2.5 ทะลุ 150 ใส่แมสก์ด้วยเด้อ!&rdquo;</span>{" "}
+                หรือมุกกวนๆ{" "}
+                <span className="text-white/60">&ldquo;ไฟแดงรินคำ นานกว่ารอเธอตอบแชทอีก&rdquo;</span>{" "}
+                — ทำให้{" "}
+                <span className="text-white">ป้ายมีชีวิต คุยกับคนเชียงใหม่</span>{" "}
+                ไม่ใช่แค่จอรับจ้างฉายรูป
+              </p>
+            </motion.div>
+
+            {/* Point 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="rounded-2xl border border-white/10 bg-white/[0.02] p-7"
+            >
+              <div
+                className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl"
+                style={{ background: `${purple}15` }}
+              >
+                <Vote className="h-6 w-6" style={{ color: purple }} />
+              </div>
+              <h3 className="text-lg font-bold text-white">
+                Interactive — คนมีส่วนร่วม
+              </h3>
+              <p className="mt-3 leading-relaxed text-muted">
+                ช่วงคิวว่าง ระบบจะขึ้นโพลคำถามสนุกๆ เช่น{" "}
+                <span className="text-white/60">&ldquo;ข้าวซอย vs น้ำเงี้ยว? สแกนโหวตเลย!&rdquo;</span>{" "}
+                แล้วอัปเดตเปอร์เซ็นต์โหวตบนจอแบบเรียลไทม์ —{" "}
+                <span className="text-white">
+                  คนในรถที่ว่างๆ หยิบมือถือมาเล่นด้วยทันที
+                </span>
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Summary */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-10 rounded-2xl border border-white/10 bg-gradient-to-r from-[#FF2D78]/[0.05] to-transparent p-6 md:p-8"
+          >
+            <p className="text-lg leading-relaxed text-muted">
+              <span className="font-semibold text-white">สรุป:</span>{" "}
+              คนจะไม่เบื่อเนื้อหาที่ &ldquo;ไม่ซ้ำซากและจับต้องได้&rdquo;
+              ยิ่งคอนเทนต์มีความเป็นมนุษย์ธรรมดามากเท่าไหร่ คนยิ่งชอบดู
+              เพราะมันเรียลและเข้าถึงง่ายกว่าโฆษณาที่จัดแสงถ่ายทำมาแบบเป๊ะๆ
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ━━━ LOCATION ━━━ */}
+      <section className="relative border-t border-white/5 bg-surface/50 py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <motion.div
