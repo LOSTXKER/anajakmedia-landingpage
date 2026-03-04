@@ -185,81 +185,105 @@ export function ProductDetailClient() {
       </section>
 
       {/* Pricing Options */}
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <h2 className="mb-3 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-white">
+      <section className="rounded-3xl border border-white/10 bg-gradient-to-b from-surface to-[#0A0A0F] mx-6 my-16 p-8 md:mx-auto md:max-w-7xl md:p-12 lg:px-14">
+        <h2 className="mb-2 font-[family-name:var(--font-space-grotesk)] text-2xl font-bold text-white md:text-3xl">
           ตัวเลือกการลงโฆษณา
         </h2>
-        <p className="mb-8 text-sm text-muted">
+        <p className="mb-10 text-muted">
           เลือกสล็อต จำนวนรอบ และระยะเวลาที่เหมาะกับแคมเปญของคุณ
         </p>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-xl border border-white/10 bg-surface p-6">
-            <h3 className="mb-4 text-sm font-semibold text-white">
-              ความยาวสล็อต
-            </h3>
-            <ul className="space-y-3">
-              {slotDurations.map((s) => (
-                <li
-                  key={s.duration}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <div className="flex items-center gap-2 text-muted">
-                    <span className="h-1 w-1 rounded-full bg-accent" />
-                    {s.label}
-                  </div>
-                  <span className="font-[family-name:var(--font-space-grotesk)] font-bold text-accent">
-                    ฿{(s.pricePerPlay[slug] ?? 0).toLocaleString()}/รอบ
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-xl border border-white/10 bg-surface p-6">
-            <h3 className="mb-4 text-sm font-semibold text-white">
-              จำนวนรอบ/วัน
-            </h3>
-            <ul className="space-y-3">
-              {[10, 20, 30, 50].map((p) => (
-                <li
-                  key={p}
-                  className="flex items-center gap-2 text-sm text-muted"
-                >
-                  <span className="h-1 w-1 rounded-full bg-accent" />
-                  {p} รอบ/วัน
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rounded-xl border border-white/10 bg-surface p-6">
-            <h3 className="mb-4 text-sm font-semibold text-white">
-              ระยะเวลา
-            </h3>
-            <ul className="space-y-3">
-              {["รายวัน", "รายสัปดาห์ (ลด 5%)", "รายเดือน (ลด 15%)", "3 เดือน (ลด 25%)", "6 เดือน (ลด 30%)", "12 เดือน (ลด 35%)"].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-2 text-sm text-muted"
-                >
-                  <span className="h-1 w-1 rounded-full bg-accent" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+        {/* Slot durations — accent-filled cards */}
+        <div className="mb-10">
+          <p className="mb-4 text-sm font-semibold tracking-wider text-white/60 uppercase">
+            ความยาวสล็อต
+          </p>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {slotDurations.map((s, i) => (
+              <div
+                key={s.duration}
+                className={`rounded-2xl p-6 text-center ${
+                  i === 1
+                    ? "bg-accent/15 ring-1 ring-accent/40"
+                    : "bg-white/[0.04] ring-1 ring-white/10"
+                }`}
+              >
+                <p className="text-lg font-semibold text-white">
+                  {s.label}
+                </p>
+                <p className="mt-3 font-[family-name:var(--font-space-grotesk)] text-4xl font-bold text-white">
+                  ฿{(s.pricePerPlay[slug] ?? 0).toLocaleString()}
+                </p>
+                <p className="mt-1 text-muted">ต่อรอบ</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="mt-10 text-center">
+        {/* Plays per day */}
+        <div className="mb-10">
+          <p className="mb-4 text-sm font-semibold tracking-wider text-white/60 uppercase">
+            จำนวนรอบ/วัน
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {[10, 20, 30, 50].map((p) => (
+              <div
+                key={p}
+                className="rounded-full bg-white/[0.06] px-6 py-3 ring-1 ring-white/10"
+              >
+                <span className="font-[family-name:var(--font-space-grotesk)] text-lg font-bold text-white">
+                  {p}
+                </span>
+                <span className="ml-1.5 text-muted">รอบ/วัน</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Duration */}
+        <div className="mb-12">
+          <p className="mb-4 text-sm font-semibold tracking-wider text-white/60 uppercase">
+            ระยะเวลา & ส่วนลด
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {[
+              { label: "รายวัน", discount: "" },
+              { label: "1 สัปดาห์", discount: "5%" },
+              { label: "1 เดือน", discount: "15%" },
+              { label: "3 เดือน", discount: "25%" },
+              { label: "6 เดือน", discount: "30%" },
+              { label: "12 เดือน", discount: "35%" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className={`rounded-full px-5 py-2.5 ring-1 ${
+                  item.discount
+                    ? "bg-emerald-500/[0.08] ring-emerald-500/20"
+                    : "bg-white/[0.04] ring-white/10"
+                }`}
+              >
+                <span className="font-medium text-white">{item.label}</span>
+                {item.discount && (
+                  <span className="ml-2 font-bold text-emerald-400">
+                    -{item.discount}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="flex flex-col items-center gap-3 border-t border-white/10 pt-10">
           <Link
             href={`/pricing?location=${slug}`}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-white transition-all hover:bg-accent-light hover:shadow-[0_0_30px_rgba(74,144,255,0.3)]"
+            className="group inline-flex items-center gap-2 rounded-full bg-accent px-10 py-4 text-lg font-semibold text-white transition-all hover:bg-accent-light hover:shadow-[0_0_30px_rgba(74,144,255,0.3)]"
           >
-            <Calculator className="h-4 w-4" />
+            <Calculator className="h-5 w-5" />
             คำนวณราคาจอนี้
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
-          <p className="mt-3 text-sm text-muted">
+          <p className="text-muted">
             เห็นราคาทันที ไม่ต้องรอใบเสนอราคา
           </p>
         </div>
